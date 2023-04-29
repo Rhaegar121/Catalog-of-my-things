@@ -15,10 +15,6 @@ class Author
     @id = SecureRandom.uuid.delete('-')[0, 8]
   end
 
-  def to_s
-    "#{@first_name} #{@last_name}"
-  end
-
   def add_item(item)
     if item.author == self
       nil
@@ -28,17 +24,5 @@ class Author
     else
       raise 'Item already has an author'
     end
-  end
-
-  def hashify
-    {
-      'First_name' => @first_name,
-      'Last_name' => @last_name,
-      'Items' => @items.map do |item|
-        hashed_item = item.hashify
-        hashed_item['class'] = item.class.to_s
-        hashed_item
-      end
-    }
   end
 end

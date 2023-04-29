@@ -9,37 +9,71 @@ require_relative 'book_controller'
 require_relative 'author_controller'
 require_relative 'label_controller'
 require_relative 'genre_controller'
+require_relative 'input_validator'
 
 class App
-  attr_accessor :albums, :genres, :games, :authors
+  include InputValidator
+  attr_accessor :albums, :genres, :games, :authors, :books, :labels
 
   def initialize
     @albums = []
     @genres = []
     @authors = []
     @games = []
+    @books = []
+    @labels = []
 
-    @label_controller = LabelController.new
-    @author_controller = AuthorController.new
-    @genre_controller = GenreController.new
+    # @label_controller = LabelController.new
+    # @author_controller = AuthorController.new
+    # @genre_controller = GenreController.new
 
-    @book_controller = BookController.new
+    # @book_controller = BookController.new
   end
 
   def list_books
-    @book_controller.list_books
-  end
-
-  def add_book
-    author = @author_controller.create_author
-    genre = @genre_controller.create_genre
-    label = @label_controller.create_label
-
-    @book_controller.create_book(author: author, genre: genre, label: label)
+    if @books.empty?
+      puts '~~ No books found! ~~'
+      puts 'Please create a book...(7)'
+    else
+      puts '<<< List of Books >>>'
+      @books.each do |book|
+        puts "Title: #{book['Title']}, Publisher: #{book['Publisher']}, Cover_state: #{book['Cover_state']}"
+      end
+    end
   end
 
   def list_labels
-    @label_controller.list_labels
+    if @labels.empty?
+      puts 'Please create a label'
+    else
+      @labels.each do |label|
+        puts "Title: #{label['Title']}, Color: #{label['Color']}"
+      end
+    end
+  end
+
+  def add_book
+    puts 'Please enter the following (Book) info: '
+    print 'Book Title: '
+    title = gets.chomp.to_s
+    print 'Publisher: '
+    publisher = gets.chomp.to_s
+    print 'Publish date-(YYYY-MM-DD):  '
+    publish_date = fetch_valid_date('Publish date-(YYYY-MM-DD):  ')
+    print 'Cover state: (g)ood, (b)ad, or (o)k : '
+    cover_state = fetch_valid_cover_state('Cover state: (g)ood, (b)ad, or (o)k : ')
+    puts 'Please enter the following (Label) info: '
+    print 'Title: '
+    title = gets.chomp.to_s
+    print 'Color: '
+    color = fetch_valid_name('Color: ')
+    puts '+++ New Book created! +++'
+
+    book = Book.new(title: title, publisher: publisher, cover_state: cover_state)
+    label = Label.new(title: title, color: color)
+
+    @books.push({ 'Title' => book.title, 'Publisher' => book.publisher, 'Cover_state' => book.cover_state })
+    @labels.push({ 'Title' => label.title, 'Color' => label.color })
   end
 
   def add_music_album
@@ -62,7 +96,6 @@ class App
     @albums.push({ 'Title' => album.name, 'Publish_date' => album.publish_date, 'Is on spotify?' => album.on_spotify,
                    'Genre' => genre.name })
     @genres.push({ 'Genre' => genre.name })
-    puts 'Album added successfully'
   end
 
   def list_music_albums
@@ -82,7 +115,6 @@ class App
       @genres.each { |genre| puts "Genre: \"#{genre['Genre']}\"" }
     end
   end
-
 
   def list_games
     if @games.empty?
@@ -157,14 +189,12 @@ class App
 
   def save_data
     FileUtils.mkdir_p('data')
-
-    @book_controller.save_to_file('books', @book_controller.books)
-    @label_controller.save_to_file('labels', @label_controller.labels)
-
     File.write('data/albums.json', JSON.pretty_generate(@albums))
     File.write('data/genre.json', JSON.pretty_generate(@genres))
     File.write('data/authors.json', JSON.pretty_generate(@authors))
     File.write('data/games.json', JSON.pretty_generate(@games))
+    File.write('data/books.json', JSON.pretty_generate(@books))
+    File.write('data/labels.json', JSON.pretty_generate(@labels))
   end
 
   def read_file(file)
@@ -177,5 +207,7 @@ class App
     @genres = File.exist?('data/genre.json') ? read_file('data/genre.json') : []
     @games = File.exist?('data/games.json') ? read_file('data/games.json') : []
     @authors = File.exist?('data/authors.json') ? read_file('data/authors.json') : []
+    @books = File.exist?('data/books.json') ? read_file('data/books.json') : []
+    @labels = File.exist?('data/labels.json') ? read_file('data/labels.json') : []
   end
 end
