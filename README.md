@@ -88,7 +88,7 @@ Clone this repository to your desired folder:
 
 ```sh
   cd my-folder
-  git clone git@github.com:MosDevx/Ruby-Capstone.git
+  git clone git@github.com:Rhaegar121/Catalog-of-my-things.git
 ```
 
 ### Usage
@@ -145,7 +145,7 @@ Thats it now you can execute your program on terminal:)
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/MosDevx/Ruby-Capstone/issues).
+Feel free to check the [issues page](https://github.com/Rhaegar121/Catalog-of-my-things/issues).
 
 ## ⭐️ Show your support <a name="support"></a>
 
