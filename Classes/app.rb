@@ -28,18 +28,18 @@ class App
     print 'Publisher: '
     publisher = gets.chomp.to_s
     print 'Publish date-(YYYY-MM-DD):  '
-    publish_date = fetch_valid_date('Publish date-(YYYY-MM-DD):  ')
+    date = fetch_valid_date('Publish date-(YYYY-MM-DD):  ')
     print 'Cover state: (g)ood, (b)ad, or (o)k : '
     cover_state = fetch_valid_cover_state('Cover state: (g)ood, (b)ad, or (o)k : ')
     puts 'Please enter the following (Label) info: '
     print 'Title: '
-    title = gets.chomp.to_s
+    label_title = gets.chomp.to_s
     print 'Color: '
     color = fetch_valid_name('Color: ')
     puts '+++ New Book created! +++'
 
-    book = Book.new(title: title, publisher: publisher, cover_state: cover_state)
-    label = Label.new(title: title, color: color)
+    book = Book.new(title: title, publisher: publisher, cover_state: cover_state, publish_date: date)
+    label = Label.new(title: label_title, color: color)
 
     @books.push({ 'Title' => book.title, 'Publisher' => book.publisher, 'Cover_state' => book.cover_state })
     @labels.push({ 'Title' => label.title, 'Color' => label.color })
@@ -72,7 +72,7 @@ class App
     name = gets.chomp
     puts 'Last played at(YYYY-MM-DD): '
     last_played_at = fetch_valid_date('Last played at(YYYY-MM-DD): ')
-    multiplayer = multi_player?()
+    multiplayer = multi_player?
     puts 'Publish date(YYYY-MM-DD): '
     publish_date = fetch_valid_date('Publish date-(YYYY-MM-DD): ')
     puts 'Author(first name):'
@@ -85,17 +85,18 @@ class App
     author = Author.new(first_name: first_name, last_name: last_name)
     author.add_item(game)
 
-    @games.push({ 'name' => game.name, 'multiplayer' => game.multiplayer, 'last_played_at' => game.last_played_at, 'Publish_date' => game.publish_date })
+    @games.push({ 'name' => game.name, 'multiplayer' => game.multiplayer, 'last_played_at' => game.last_played_at,
+                  'Publish_date' => game.publish_date })
 
-    @authors.push({ 
-      'First_name' => author.first_name,
-      'Last_name' => author.last_name, 
-      'Items' => author.items.map do |item|
-        hashed_item = item.hashify
-        hashed_item['class'] = item.class.to_s
-        hashed_item
-      end
-    })
+    @authors.push({
+                    'First_name' => author.first_name,
+                    'Last_name' => author.last_name,
+                    'Items' => author.items.map do |item|
+                                 hashed_item = item.hashify
+                                 hashed_item['class'] = item.class.to_s
+                                 hashed_item
+                               end
+                  })
   end
 
   def list_books
@@ -161,7 +162,7 @@ class App
     else
       @authors.each_with_index do |author, index|
         puts "#{index}) Name: #{author['First_name']} #{author['Last_name']}\n" \
-        "Items: #{author['Items']}"
+             "Items: #{author['Items']}"
         puts
       end
     end
