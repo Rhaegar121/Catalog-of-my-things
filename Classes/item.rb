@@ -5,8 +5,8 @@ class Item
   attr_accessor :genre, :author, :source, :label, :publish_date, :archived
 
   def initialize(publish_date: '', genre: '', label: '', source: '', author: '')
-    @publish_date = publish_date
     generate_id
+    @publish_date = publish_date
     @genre = genre
     @label = label
     @source = source

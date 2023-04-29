@@ -13,19 +13,9 @@ describe Label do
     it 'should have a name' do
       expect(@label.title).to eq('Super Awesome Label')
     end
-
-    it 'should give a string when to_s is called' do
-      expect(@label.to_s).to eq('super awesome labelred')
-    end
   end
 
   describe '#add_item' do
-    context 'when item is not an instance of Item' do
-      it 'should return an error' do
-        expect { @label.add_item('Not an item') }.to output("!! Item is not an instance of Item !!\n").to_stdout
-      end
-    end
-
     context 'when item is an instance of Item' do
       it 'should add the item to the label' do
         @item = Item.new

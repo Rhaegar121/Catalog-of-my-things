@@ -2,8 +2,7 @@ require './Classes/book'
 
 describe Book do
   before :all do
-    @book = Book.new(title: 'Super Awesome Book', publisher: 'Penguin', cover_state: 'bad',
-                     item_init: { publish_date: '2005-02-02' })
+    @book = Book.new(title: 'Super Awesome Book', publisher: 'Penguin', cover_state: 'bad', publish_date: '2023-04-25')
   end
 
   describe '#initialize' do
