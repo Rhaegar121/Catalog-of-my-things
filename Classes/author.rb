@@ -32,9 +32,9 @@ class Author
 
   def hashify
     {
-      'first_name' => @first_name,
-      'last_name' => @last_name,
-      'items' => @items.map do |item|
+      'First_name' => @first_name,
+      'Last_name' => @last_name,
+      'Items' => @items.map do |item|
         hashed_item = item.hashify
         hashed_item['class'] = item.class.to_s
         hashed_item

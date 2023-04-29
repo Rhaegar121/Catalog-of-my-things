@@ -6,7 +6,6 @@ require_relative './game'
 require_relative './author'
 require_relative './data_handler'
 require_relative 'book_controller'
-# require_relative 'music_album_controller'
 require_relative 'author_controller'
 require_relative 'label_controller'
 require_relative 'genre_controller'
@@ -63,6 +62,7 @@ class App
     @albums.push({ 'Title' => album.name, 'Publish_date' => album.publish_date, 'Is on spotify?' => album.on_spotify,
                    'Genre' => genre.name })
     @genres.push({ 'Genre' => genre.name })
+    puts 'Album added successfully'
   end
 
   def list_music_albums
@@ -90,9 +90,9 @@ class App
       puts
     else
       @games.each_with_index do |game, index|
-        puts "#{index}) #{game.name} - Mutliplayer: #{game.multiplayer}\n" \
-             "\tLast played at: #{game.last_played_at}\n" \
-             "\tPublish date: #{game.publish_date}"
+        puts "#{index}) #{game['name']} - Mutliplayer: #{game['multiplayer']}\n" \
+             "\tLast played at: #{game['last_played_at']}\n" \
+             "\tPublish date: #{game['Publish_date']}"
         puts
       end
     end
@@ -104,8 +104,8 @@ class App
       puts
     else
       @authors.each_with_index do |author, index|
-        puts "#{index}) Name: #{author.first_name} #{author.last_name}\n" \
-             "Items: #{author.items.map(&:name).join(', ')}"
+        puts "#{index}) Name: #{author['First_name']} #{author['Last_name']}\n" \
+        "Items: #{author['Items']}"
         puts
       end
     end
@@ -123,22 +123,22 @@ class App
     first_name = gets.chomp
     puts 'Author(last name):'
     last_name = gets.chomp
-    game = Game.new(name: name, last_played_at: last_played_at, publish_date: publish_date,
-                    multiplayer: multiplayer)
-    @games << game
-    author = resolve_author(first_name, last_name)
-    unless author.nil?
-      author.add_item(game)
-      @authors << author unless @authors.include?(author)
-    end
+    game = Game.new(name: name, last_played_at: last_played_at, publish_date: publish_date, multiplayer: multiplayer)
+    author = Author.new(first_name: first_name, last_name: last_name)
+    author.add_item(game)
+
+    @games.push({ 'name' => game.name, 'multiplayer' => game.multiplayer, 'last_played_at' => game.last_played_at, 'Publish_date' => game.publish_date })
+
+    @authors.push({ 
+      'First_name' => author.first_name,
+      'Last_name' => author.last_name, 
+      'Items' => author.items.map do |item|
+        hashed_item = item.hashify
+        hashed_item['class'] = item.class.to_s
+        hashed_item
+      end
+    })
     puts 'Game added successfully'
-  end
-
-  def resolve_author(first_name, last_name)
-    return nil if first_name.empty? || last_name.empty?
-
-    author = @authors.find { |a| a.first_name == first_name && a.last_name == last_name }
-    author || Author.new(first_name: first_name, last_name: last_name)
   end
 
   def multi_player?
@@ -163,9 +163,8 @@ class App
 
     File.write('data/albums.json', JSON.pretty_generate(@albums))
     File.write('data/genre.json', JSON.pretty_generate(@genres))
-    @authors.concat(@author_controller.authors)
-    File.write('data/authors.json', JSON.pretty_generate(@authors.map(&:hashify)))
-    File.write('data/games.json', JSON.pretty_generate(@games.map(&:hashify)))
+    File.write('data/authors.json', JSON.pretty_generate(@authors))
+    File.write('data/games.json', JSON.pretty_generate(@games))
   end
 
   def read_file(file)
@@ -176,7 +175,7 @@ class App
   def load_data
     @albums = File.exist?('data/albums.json') ? read_file('data/albums.json') : []
     @genres = File.exist?('data/genre.json') ? read_file('data/genre.json') : []
-    @games = load_games
-    @authors = load_authors
+    @games = File.exist?('data/games.json') ? read_file('data/games.json') : []
+    @authors = File.exist?('data/authors.json') ? read_file('data/authors.json') : []
   end
 end

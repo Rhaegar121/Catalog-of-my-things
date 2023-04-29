@@ -1,3 +1,20 @@
 [
-
+  {
+    "name": "a",
+    "multiplayer": true,
+    "last_played_at": "2023-01-01",
+    "publish_date": "0"
+  },
+  {
+    "name": "lol",
+    "multiplayer": false,
+    "last_played_at": "1",
+    "Publish_date": "0"
+  },
+  {
+    "name": "pubg",
+    "multiplayer": true,
+    "last_played_at": "1",
+    "Publish_date": "2"
+  }
 ]
