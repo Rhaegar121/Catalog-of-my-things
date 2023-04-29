@@ -2,38 +2,38 @@ require './Classes/app'
 
 def list_options
   "Welcome to my catalog of things
-    1 - List of all books
-    2 - List of all music albums
-    3 - List of games
-    4 - List of all generes
-    5 - List of all labels
-    6 - List of all authors
-    7 - Add a book
-    8 - Add a music album
-    9 - Add a game
+    1 - Add a book
+    2 - Add a music album
+    3 - Add a game
+    4 - List of all books
+    5 - List of all music albums
+    6 - List of games
+    7 - List of all labels
+    8 - List of all generes
+    9 - List of all authors
     10 - Exit"
 end
 
 def option(option, app)
   case option
   when 1
-    app.list_books
-  when 2
-    app.list_music_albums
-  when 3
-    app.list_games
-  when 4
-    app.list_genres
-  when 5
-    app.list_labels
-  when 6
-    app.list_authors
-  when 7
     app.add_book
-  when 8
+  when 2
     app.add_music_album
-  when 9
+  when 3
     app.add_game
+  when 4
+    app.list_books
+  when 5
+    app.list_music_albums
+  when 6
+    app.list_games
+  when 7
+    app.list_labels
+  when 8
+    app.list_genres
+  when 9
+    app.list_authors
   when 10
     app.save_data
     exit

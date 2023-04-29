@@ -1,9 +1,7 @@
 require 'securerandom'
 require 'date'
-require_relative 'json_helper'
 
 class Item
-  include JsonHelper
   attr_accessor :genre, :author, :source, :label, :publish_date, :archived
 
   def initialize(publish_date: '', genre: '', label: '', source: '', author: '')

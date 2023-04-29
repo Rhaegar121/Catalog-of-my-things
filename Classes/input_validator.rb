@@ -37,13 +37,6 @@ module InputValidator
       retry
     end
 
-    # until parseable < Date.today
-    #   puts 'Please enter a date in the past!!'
-    #   print place_holder
-    #   date = gets.chomp
-    #   parseable = Date.strptime(date, '%Y-%m-%d')
-
-    # end
     puts parseable
     parseable
   end
@@ -52,11 +45,24 @@ module InputValidator
     input = gets.chomp
     lower_input = input.downcase
     until %w[good bad ok g b o].include?(lower_input)
-      # puts '!! Please enter good, bad, or ok!!'
       print place_holder
       input = gets.chomp
       lower_input = input.downcase
     end
     input
+  end
+
+  def multi_player?
+    loop do
+      puts 'Multiplayer(T/F):'
+      choice1 = gets.chomp.upcase
+      if choice1 == 'T'
+        return true
+      elsif choice1 == 'F'
+        return false
+      else
+        puts 'Invalid option, please type T or F'
+      end
+    end
   end
 end
