@@ -1,0 +1,14 @@
+[
+  {
+    "Title": "a",
+    "Publish_date": "a",
+    "Is on spotify?": true,
+    "Genre": "b"
+  },
+  {
+    "Title": "Lover",
+    "Publish_date": "2023-04-28",
+    "Is on spotify?": true,
+    "Genre": "Pop"
+  }
+]
