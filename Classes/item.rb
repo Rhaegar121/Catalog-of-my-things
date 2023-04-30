@@ -2,14 +2,13 @@ require 'securerandom'
 require 'date'
 
 class Item
-  attr_accessor :genre, :author, :source, :label, :publish_date, :archived
+  attr_accessor :genre, :author, :label, :publish_date, :archived
 
-  def initialize(publish_date: '', genre: '', label: '', source: '', author: '')
+  def initialize(publish_date: '', genre: '', label: '', author: '')
     generate_id
     @publish_date = publish_date
     @genre = genre
     @label = label
-    @source = source
     @author = author
   end
 
